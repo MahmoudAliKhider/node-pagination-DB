@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const products = require("../models/product");
-const _ = require("lodash");
+
 router.get("/", async (req, res) => {
   let pageNumber = 1;
   let pageSize = 10;
@@ -28,13 +28,13 @@ router.get("/", async (req, res) => {
 
     var includeColors = req.query.includeColors;
     var includeSizes = req.query.includeSizes;
-    var nextPage = pageNumber+1
-    var prevPage = pageNumber-1
-    if(prevPage < 1){
+    var nextPage = pageNumber + 1;
+    var prevPage = pageNumber - 1;
+    if (prevPage < 1) {
       prevPage = 1;
     }
-    if(nextPage > totalPages){
-      nextPage == totalPages
+    if (nextPage > totalPages) {
+      nextPage == totalPages;
     }
 
     if (includeColors == "true") {
@@ -80,14 +80,14 @@ router.get("/", async (req, res) => {
   ///////////////////////////////////////////////////////////////
   var includeColors = req.query.includeColors;
   var includeSizes = req.query.includeSizes;
-  var _nextPage = pageNumber+1
-  var _prevPage = pageNumber-1
-    if(_prevPage < 1){
-      _prevPage = 1;
-    }
-    if(_nextPage >= totalPages){
-      _nextPage == totalPages
-    }
+  var _nextPage = pageNumber + 1;
+  var _prevPage = pageNumber - 1;
+  if (_prevPage < 1) {
+    _prevPage = 1;
+  }
+  if (_nextPage >= totalPages) {
+    _nextPage == totalPages;
+  }
   let productSort = await products
     .find({}, { _id: 1, title: 1, description: 1, price: 1 })
     .limit(pageSize)
@@ -124,7 +124,6 @@ router.get("/", async (req, res) => {
   return res
     .header("X-Pagination", JSON.stringify(paginationMetaData))
     .send(productSort);
-
 });
 
 module.exports = router;
