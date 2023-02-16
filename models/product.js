@@ -1,11 +1,10 @@
 const mongoose = require("mongoose");
-
 mongoose.set("strictQuery", false);
 const productSchema = new mongoose.Schema(
   {
-    title: { type: String, required: true },
-    description: { type: String, required: true, minlength: 3, maxlength: 200 },
-    price: { type: Number, required: true },
+    title: { type: String },
+    description: { type: String },
+    price: { type: Number },
     colors: [],
     sizes: []
   },

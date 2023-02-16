@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 const product = require("../models/product");
-
 const fakerProductsData = require("./seeding");
-
 const connectToDb = async () => {
   mongoose
     .connect(process.env.DB_CONNECTION, {
