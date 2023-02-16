@@ -16,42 +16,42 @@ router.get("/", async (req, res) => {
       ? 10
       : +req.query.pageSize;
 
-    //  var Gooo = req.query.Gooo;
-    // if (Gooo) {
-    //   Gooo = Gooo.trim();
-
-    //   }   
-      
-
   var keyword = req.query.keyword;
   if (keyword) {
     keyword = keyword.trim();
     query.$or = [{ title: { $regex: keyword, $options: "i" } }];
-    var productSortSearch = await products.find({}, { _id:1,title:1,description:1,price:1 })
-      .find((query))
+    var productSortSearch = await products
+      .find({}, { _id: 1, title: 1, description: 1, price: 1 })
+      .find(query)
       .limit(pageSize)
       .skip((pageNumber - 1) * pageSize);
 
-      var includeColors = req.query.includeColors;
-      var includeSizes = req.query.includeSizes;
-      if(includeColors == "true"){
-        productSortSearch = await products.find({}, { _id:1,title:1,description:1,price:1 ,colors:1})
+    var includeColors = req.query.includeColors;
+    var includeSizes = req.query.includeSizes;
+    if (includeColors == "true") {
+      productSortSearch = await products
+        .find({}, { _id: 1, title: 1, description: 1, price: 1, colors: 1 })
         .find(query)
         .limit(pageSize)
-        .skip((pageNumber - 1) * pageSize)
-      }
-      if(includeSizes == "true"){
-        productSortSearch = await products.find({}, { _id:1,title:1,description:1,price:1,sizes:1 })
+        .skip((pageNumber - 1) * pageSize);
+    }
+    if (includeSizes == "true") {
+      productSortSearch = await products
+        .find({}, { _id: 1, title: 1, description: 1, price: 1, sizes: 1 })
         .find(query)
         .limit(pageSize)
-        .skip((pageNumber - 1) * pageSize)
-      }
-      if(includeSizes == "true"&& includeColors == "true"){
-        productSortSearch = await products.find({}, { _id:1,title:1,description:1,price:1,colors:1,sizes:1 })
+        .skip((pageNumber - 1) * pageSize);
+    }
+    if (includeSizes == "true" && includeColors == "true") {
+      productSortSearch = await products
+        .find(
+          {},
+          { _id: 1, title: 1, description: 1, price: 1, colors: 1, sizes: 1 }
+        )
         .find(query)
         .limit(pageSize)
-        .skip((pageNumber - 1) * pageSize)
-      }
+        .skip((pageNumber - 1) * pageSize);
+    }
     var _product = (await products.find(query)).length;
     totalPages = +(_product / pageSize);
 
@@ -73,26 +73,29 @@ router.get("/", async (req, res) => {
   var includeSizes = req.query.includeSizes;
 
   let productSort = await products
-    .find({}, { _id:1,title:1,description:1,price:1 })
+    .find({}, { _id: 1, title: 1, description: 1, price: 1 })
     .limit(pageSize)
-    .skip((pageNumber - 1) * pageSize)
-  if(includeColors == "true"){
+    .skip((pageNumber - 1) * pageSize);
+  if (includeColors == "true") {
     productSort = await products
-    .find({}, { _id:1,title:1,description:1,price:1,colors:1 })
-    .limit(pageSize)
-    .skip((pageNumber - 1) * pageSize)
+      .find({}, { _id: 1, title: 1, description: 1, price: 1, colors: 1 })
+      .limit(pageSize)
+      .skip((pageNumber - 1) * pageSize);
   }
-  if(includeSizes == "true"){
+  if (includeSizes == "true") {
     productSort = await products
-    .find({}, { _id:1,title:1,description:1,price:1,sizes:1 })
-    .limit(pageSize)
-    .skip((pageNumber - 1) * pageSize)
+      .find({}, { _id: 1, title: 1, description: 1, price: 1, sizes: 1 })
+      .limit(pageSize)
+      .skip((pageNumber - 1) * pageSize);
   }
-  if(includeSizes == "true"&& includeColors == "true"){
+  if (includeSizes == "true" && includeColors == "true") {
     productSort = await products
-    .find({}, { _id:1,title:1,description:1,price:1,sizes:1,colors:1 })
-    .limit(pageSize)
-    .skip((pageNumber - 1) * pageSize)
+      .find(
+        {},
+        { _id: 1, title: 1, description: 1, price: 1, sizes: 1, colors: 1 }
+      )
+      .limit(pageSize)
+      .skip((pageNumber - 1) * pageSize);
   }
   const paginationMetaData = {
     pageSize: pageSize,
@@ -105,9 +108,7 @@ router.get("/", async (req, res) => {
   return res
     .header("X-Pagination", JSON.stringify(paginationMetaData))
     .send(productSort);
-  
-  ///////////////////////////////////////////
-   
+
 });
 
 module.exports = router;
