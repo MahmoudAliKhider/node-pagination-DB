@@ -28,6 +28,15 @@ router.get("/", async (req, res) => {
 
     var includeColors = req.query.includeColors;
     var includeSizes = req.query.includeSizes;
+    var nextPage = pageNumber+1
+    var prevPage = pageNumber-1
+    if(prevPage < 1){
+      prevPage = 1;
+    }
+    if(nextPage > totalPages){
+      nextPage == totalPages
+    }
+
     if (includeColors == "true") {
       productSortSearch = await products
         .find({}, { _id: 1, title: 1, description: 1, price: 1, colors: 1 })
@@ -58,8 +67,8 @@ router.get("/", async (req, res) => {
     const paginationMetaData = {
       pageSize: pageSize,
       pageNumber: pageNumber,
-      previousPage: pageNumber - 1,
-      nextPage: pageNumber + 1,
+      haspreviousPage: prevPage,
+      hasnextPage: nextPage,
       totalCount: (await products.find(query)).length,
       totalPages: parseInt(totalPages),
     };
@@ -71,7 +80,14 @@ router.get("/", async (req, res) => {
   ///////////////////////////////////////////////////////////////
   var includeColors = req.query.includeColors;
   var includeSizes = req.query.includeSizes;
-
+  var _nextPage = pageNumber+1
+  var _prevPage = pageNumber-1
+    if(_prevPage < 1){
+      _prevPage = 1;
+    }
+    if(_nextPage >= totalPages){
+      _nextPage == totalPages
+    }
   let productSort = await products
     .find({}, { _id: 1, title: 1, description: 1, price: 1 })
     .limit(pageSize)
@@ -100,8 +116,8 @@ router.get("/", async (req, res) => {
   const paginationMetaData = {
     pageSize: pageSize,
     pageNumber: pageNumber,
-    previousPage: pageNumber - 1,
-    nextPage: pageNumber + 1,
+    haspreviousPage: _prevPage,
+    hasnextPage: _nextPage,
     totalCount: (await products.find(query)).length,
     totalPages: parseInt(totalPages),
   };
